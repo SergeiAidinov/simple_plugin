@@ -39,8 +39,6 @@ import com.sun.jdi.event.EventSet;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.EventRequestManager;
 
-import jdk.javadoc.internal.tool.Start;
-
 public class SimpleDebuggerWorkFlow implements SimpleDebuggerBreakpointProvider, Runnable {
 
 	private VirtualMachine virtualMachine = null;
@@ -66,7 +64,7 @@ public class SimpleDebuggerWorkFlow implements SimpleDebuggerBreakpointProvider,
 				port);
 		return CACHE.computeIfAbsent(simpleDebuggerWorkFlowidentifier, k -> new SimpleDebuggerWorkFlow(host, port));
 	}
-	
+
 	@Override
 	public List<SimpleDebuggerBreakpointInfo> getBreakpoints() {
 		// TODO Auto-generated method stub
@@ -76,25 +74,25 @@ public class SimpleDebuggerWorkFlow implements SimpleDebuggerBreakpointProvider,
 	@Override
 	public void addBreakpoint(SimpleDebuggerBreakpointInfo breakpoint) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void addBreakpoints(Collection<SimpleDebuggerBreakpointInfo> breakpoints) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeBreakpoint(SimpleDebuggerBreakpointInfo breakpoint) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeBreakpoints(Collection<SimpleDebuggerBreakpointInfo> breakpoints) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void debug() throws IOException, AbsentInformationException {
@@ -110,11 +108,11 @@ public class SimpleDebuggerWorkFlow implements SimpleDebuggerBreakpointProvider,
 						.filter(m -> m.name().contains("sayHello")).findAny().orElse(null);
 			}
 		}
-		
-		  Location location = method.location(); 
-		  BreakpointRequest bpReq = eventRequestManager.createBreakpointRequest(location); 
-		  bpReq.enable();
-		 
+
+		Location location = method.location();
+		BreakpointRequest bpReq = eventRequestManager.createBreakpointRequest(location);
+		bpReq.enable();
+
 //		Optional<Location> loc = findLocation(method, 29);
 //		loc.ifPresent(l -> {
 //		    BreakpointRequest bp = eventRequestManager.createBreakpointRequest(l);
@@ -149,21 +147,20 @@ public class SimpleDebuggerWorkFlow implements SimpleDebuggerBreakpointProvider,
 			}
 		}
 	}
-	
-	public Optional<Location> findLocation(Method method, int sourceLine) {
-	    try {
-	        for (Location l : method.allLineLocations()) {
-	            if (l.lineNumber() == sourceLine) {
-	                return Optional.of(l);
-	            }
-	        }
-	    } catch (AbsentInformationException e) {
-	        // в этом случае исходники не доступны: метод скомпилирован без -g
-	        return Optional.empty();
-	    }
-	    return Optional.empty();
-	}
 
+	public Optional<Location> findLocation(Method method, int sourceLine) {
+		try {
+			for (Location l : method.allLineLocations()) {
+				if (l.lineNumber() == sourceLine) {
+					return Optional.of(l);
+				}
+			}
+		} catch (AbsentInformationException e) {
+			// в этом случае исходники не доступны: метод скомпилирован без -g
+			return Optional.empty();
+		}
+		return Optional.empty();
+	}
 
 	public List<? extends TargetApplicationElementRepresentation> getTargetApplicationStatus() {
 		return referencesAtClassesAndInterfaces.values().stream().collect(Collectors.toList());
@@ -265,7 +262,7 @@ public class SimpleDebuggerWorkFlow implements SimpleDebuggerBreakpointProvider,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

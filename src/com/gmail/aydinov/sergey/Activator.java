@@ -1,5 +1,6 @@
 package com.gmail.aydinov.sergey;
 
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
@@ -7,6 +8,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import com.gmail.aydinov.sergey.simpledebugger.core.MyBreakpointListener;
 import com.gmail.aydinov.sergey.simpledebugger.core.SimpleDebuggerWorkFlow;
 
 import java.io.File;
@@ -14,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Activator implements BundleActivator {
+	
+	MyBreakpointListener listener = new MyBreakpointListener();
 
     @Override
     public void start(BundleContext context) throws Exception {
@@ -26,7 +30,8 @@ public class Activator implements BundleActivator {
         SimpleDebuggerWorkFlow simpleDebuggerWorkFlow = SimpleDebuggerWorkFlow.instanceOfHostAndPort(host, port);
         Thread thread = new Thread(simpleDebuggerWorkFlow);
         thread.start();
-        
+        DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(listener);
+
      // SWT UI
         Display display = Display.getDefault(); // берём существующий Display
         Shell shell = new Shell(display);
