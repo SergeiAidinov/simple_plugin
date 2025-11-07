@@ -18,4 +18,3 @@ Import-Package: jakarta.annotation;version="[2.1.0,3.0.0)",
 Automatic-Module-Name: simple.plugin
 Bundle-ActivationPolicy: lazy
 
-

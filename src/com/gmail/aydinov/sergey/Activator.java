@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import com.gmail.aydinov.sergey.simpledebugger.core.SimpleDebuggerWorkFlow;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,31 +19,30 @@ public class Activator implements BundleActivator {
     public void start(BundleContext context) throws Exception {
         // Записываем информацию о запускe
        // writeStartupInfo(context);
-
-        // SWT UI
-        Display display = Display.getDefault(); // берём существующий Display
-        Shell shell = new Shell(display);
-        shell.setText("Simple Button Window");
-        shell.setSize(300, 200);
-
-        // Кнопка
-        Button button = new Button(shell, SWT.PUSH);
-        button.setText("Click Me!");
-        button.setBounds(100, 70, 100, 30);
-
-        button.addListener(SWT.Selection, e -> {
-            System.out.println("Button clicked!");
-            writeClickInfo(context);
-        });
-
-        shell.open();
-
-        // Обработка событий SWT
-        while (!shell.isDisposed()) {
-            if (!display.readAndDispatch()) {
-                display.sleep();
-            }
-        }
+    	String host = System.getProperty("debug.host");
+        String portStr = System.getProperty("debug.port");
+        int port = portStr != null ? Integer.parseInt(portStr) : -1;
+        System.out.println("Debug config: host=" + host + " port=" + port);
+        SimpleDebuggerWorkFlow simpleDebuggerWorkFlow = SimpleDebuggerWorkFlow.instanceOfHostAndPort(host, port);
+        Thread thread = new Thread(simpleDebuggerWorkFlow);
+        thread.start();
+        
+		/*
+		 * // SWT UI Display display = Display.getDefault(); // берём существующий
+		 * Display Shell shell = new Shell(display);
+		 * shell.setText("Simple Button Window"); shell.setSize(300, 200);
+		 * 
+		 * // Кнопка Button button = new Button(shell, SWT.PUSH);
+		 * button.setText("Click Me!"); button.setBounds(100, 70, 100, 30);
+		 * 
+		 * button.addListener(SWT.Selection, e -> {
+		 * System.out.println("Button clicked!"); writeClickInfo(context); });
+		 * 
+		 * shell.open();
+		 * 
+		 * // Обработка событий SWT while (!shell.isDisposed()) { if
+		 * (!display.readAndDispatch()) { display.sleep(); } }
+		 */
     }
 
     @Override
