@@ -27,22 +27,31 @@ public class Activator implements BundleActivator {
         Thread thread = new Thread(simpleDebuggerWorkFlow);
         thread.start();
         
-		/*
-		 * // SWT UI Display display = Display.getDefault(); // берём существующий
-		 * Display Shell shell = new Shell(display);
-		 * shell.setText("Simple Button Window"); shell.setSize(300, 200);
-		 * 
-		 * // Кнопка Button button = new Button(shell, SWT.PUSH);
-		 * button.setText("Click Me!"); button.setBounds(100, 70, 100, 30);
-		 * 
-		 * button.addListener(SWT.Selection, e -> {
-		 * System.out.println("Button clicked!"); writeClickInfo(context); });
-		 * 
-		 * shell.open();
-		 * 
-		 * // Обработка событий SWT while (!shell.isDisposed()) { if
-		 * (!display.readAndDispatch()) { display.sleep(); } }
-		 */
+     // SWT UI
+        Display display = Display.getDefault(); // берём существующий Display
+        Shell shell = new Shell(display);
+        shell.setText("Simple Button Window");
+        shell.setSize(300, 200);
+
+        // Кнопка
+        Button button = new Button(shell, SWT.PUSH);
+        button.setText("Click Me!");
+        button.setBounds(100, 70, 100, 30);
+
+        button.addListener(SWT.Selection, e -> {
+            System.out.println("Button clicked!");
+            writeClickInfo(context);
+        });
+
+        shell.open();
+
+        // Обработка событий SWT
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) {
+                display.sleep();
+            }
+        }
+		 
     }
 
     @Override
